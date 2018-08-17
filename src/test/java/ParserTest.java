@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import exception.CalculatorClosingException;
 import exception.CalculatorUnexpectedEndException;
@@ -31,6 +32,10 @@ class ParserTest {
   private static final String EXPRESSION_DIVIDE_NULL = "2 / null - 20 / 5";
 
   private static final String EXPRESSION_NULL = "null";
+
+  private static final String EXPRESSION_ZERO_INF = "12 / 0";
+
+  private static final String EXPRESSION_ZERO = "0 / 2";
 
   private Parser parser;
 
@@ -86,6 +91,20 @@ class ParserTest {
     ExpressionNode expression = parser.parse(EXPRESSION_NULL);
     Object result = expression.getValue();
     assertNull(result);
+  }
+
+  @Test
+  public void parseZeroInf() {
+    ExpressionNode expression = parser.parse(EXPRESSION_ZERO_INF);
+    Object result = expression.getValue();
+    assertTrue(((Double) result).isInfinite());
+  }
+
+  @Test
+  public void parseZero() {
+    ExpressionNode expression = parser.parse(EXPRESSION_ZERO);
+    Object result = expression.getValue();
+    assertEquals(0, result);
   }
 
   @Test

@@ -17,7 +17,7 @@ public class MultiplicationExpressionNode extends SequenceExpressionNode<Number>
   }
 
   public Number getValue() {
-    double prod = 1.0;
+    Double prod = 1.0;
     for (Term term : terms) {
       if (term.getExpression().getType() == NULL_NODE) {
         return null;
@@ -38,8 +38,11 @@ public class MultiplicationExpressionNode extends SequenceExpressionNode<Number>
         prod /= value;
       }
     }
+    if (prod.isInfinite()) {
+      return prod;
+    }
     if ((prod % 1) == 0) {
-      return (int) prod;
+      return prod.intValue();
     } else {
       return Math.round(prod * 100.0) / 100.0;
     }
